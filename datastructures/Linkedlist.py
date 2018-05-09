@@ -10,16 +10,22 @@ class Node():
             raise ValueError('value to be added cannot be None')
 
     def __repr__(self):
-        return str(self.value)
+        if self:
+            return str(self.value)
+        else:
+            raise ValueError('Node is empty')
 
 
 class Linkedlist():
     head = None
 
-    def __init__(self, value):
-        self.head = Node(value)
+    def __init__(self, value=None):
+        if value:
+            self.head = Node(value)
 
     def __repr__(self):
+        if self.head == None:
+            raise ValueError('The list is empty')
         string = str(self.head)
         temp = self.head.next
         while temp != None:
@@ -28,6 +34,8 @@ class Linkedlist():
         return string
 
     def __str__(self):
+        if self.head == None:
+            raise ValueError('The list isempty')
         string = str(self.head)
         temp = self.head.next
         while temp != None:
@@ -35,7 +43,16 @@ class Linkedlist():
             temp = temp.next
         return string
 
-    def add(self, value):
+    def addFirst(self, value):
+        if value:
+            if self.head == None:
+                self.head = Node(value)
+            else:
+                self.head = Node(value, self.head)
+        else:
+            raise ValueError('value to be added cannot be None')
+
+    def addLast(self, value):
         if value:
             if self.head == None:
                 self.head = Node(value)
@@ -46,3 +63,25 @@ class Linkedlist():
                 temp.next = Node(value)
         else:
             raise ValueError('value to be added cannot be None')
+
+    def removeFirst(self):
+        if self.head != None:
+            temp = self.head
+            self.head = self.head.next
+            return temp.value
+        else:
+            return None
+
+    def removeLast(self):
+        if self.head != None:
+            temp = self.head
+            if temp.next == None:
+                self.head = None
+                return temp.value 
+            while temp.next.next != None:
+                temp = temp.next
+            value = temp.next.value
+            temp.next = None
+            return value
+        else:
+            return None
