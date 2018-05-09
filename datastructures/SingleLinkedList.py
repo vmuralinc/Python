@@ -1,4 +1,4 @@
-class Node():
+class SllNode():
     value = None
     next = None
 
@@ -16,12 +16,12 @@ class Node():
             raise ValueError('Node is empty')
 
 
-class Linkedlist():
+class SingleLinkedList():
     head = None
 
     def __init__(self, value=None):
         if value:
-            self.head = Node(value)
+            self.head = SllNode(value)
 
     def __repr__(self):
         if self.head == None:
@@ -46,21 +46,21 @@ class Linkedlist():
     def addFirst(self, value):
         if value:
             if self.head == None:
-                self.head = Node(value)
+                self.head = SllNode(value)
             else:
-                self.head = Node(value, self.head)
+                self.head = SllNode(value, self.head)
         else:
             raise ValueError('value to be added cannot be None')
 
     def addLast(self, value):
         if value:
             if self.head == None:
-                self.head = Node(value)
+                self.head = SllNode(value)
             else:
                 temp = self.head
                 while temp.next != None:
                     temp = temp.next
-                temp.next = Node(value)
+                temp.next = SllNode(value)
         else:
             raise ValueError('value to be added cannot be None')
 
