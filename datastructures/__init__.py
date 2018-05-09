@@ -1,2 +1,2 @@
-from .Linkedlist import SllNode
-from .Linkedlist import SingleLinkedlist
+from .SingleLinkedList import SllNode
+from .SingleLinkedList import SingleLinkedList
