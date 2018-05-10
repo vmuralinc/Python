@@ -10,7 +10,7 @@ class SllNode():
             raise ValueError('value to be added cannot be None')
 
     def __repr__(self):
-        if self:
+        if self.value:
             return str(self.value)
         else:
             raise ValueError('Node is empty')
