@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 class Node():
     """Contains one data and N children"""
     def __init__(self, data):
@@ -9,13 +11,13 @@ class Node():
         self.data = data
         self.children = []
     
-    def addChild(self, child):
+    def addChild(self, node):
         """Adds a child Node to the self Node
         
         Keyword arguments:
-        child -- a Node object to be add as a child to self object
+        node -- a Node object to be add as a child to self object
         """
-        self.children.append(child)
+        self.children.append(node)
 
 
 def convert_string_to_tree(tree_string):
@@ -107,7 +109,7 @@ def query(root, q_string):
     #print(keys_list)
     for key in keys_list:
         for string in questions.get(key, []):
-            if q_val in string:
+            if string.startswith(q_val):
                 count += 1
     return count
        
@@ -123,4 +125,3 @@ if __name__ == '__main__':
     #print(questions)
     for i in range(int(input())):
         print(query(tree, input().strip()))
-    
