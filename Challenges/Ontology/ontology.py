@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+ontology = {}
+
 
 def convert_string_to_tree(tree_string):
     """creates a dictionary to represent the tree from a linear string 
@@ -10,8 +12,7 @@ def convert_string_to_tree(tree_string):
     
     Returns:
     dictionary of topics
-    """
-    ontology = {}
+    """    
     tree_elem_list = tree_string.split(" ")
     i = 1
     heirarchy = []
@@ -25,7 +26,6 @@ def convert_string_to_tree(tree_string):
         else:
             ontology[heirarchy[-1]].append(tree_elem_list[i])
         i += 1
-    return ontology
 
 
 def add_questions(questions, q_string):
@@ -42,24 +42,22 @@ def add_questions(questions, q_string):
     else:
         questions[key] = [val]
 
-                
-def get_descendant_list(ontology, q_key):
+
+descendants_list = []      
+def get_descendant_list(q_key):
     """Returns a list of topics that are descendants of a particular topic
     
     Keyword arguments:
     ontology -- the dictionary containing the parent and children
-    q_key -- the name of the node for which the the descendants have to be listed
+    q_key -- the name of the node whose descendants have to be listed
     """
-    if not ontology.get(q_key, None):
-        return [q_key]
-    else:
-        data_list = [q_key]
-        for child in ontology[q_key]:
-            data_list += get_descendant_list(ontology, child)
-        return data_list
+    descendants_list.append(q_key)
+    for topic in ontology.get(q_key, []):
+        get_descendant_list(topic)
         
         
-def query(ontology, q_string):
+        
+def query(q_string):
     """Returns the number of questions that match the input topic and question 
     among the descendant topics of the topic given in the input
        
@@ -69,9 +67,12 @@ def query(ontology, q_string):
     """
     [q_key, q_val] = q_string.split(" ", 1)
     count = 0
-    keys_list = get_descendant_list(ontology, q_key) 
-    #print(keys_list)
-    for key in keys_list:
+    global descendants_list
+    descendants_list = []
+    get_descendant_list(q_key)
+    #print(descendants_list)
+    for key in descendants_list:
+        #print(key)
         for string in questions.get(key, []):
             if string.startswith(q_val):
                 count += 1
@@ -81,11 +82,11 @@ def query(ontology, q_string):
 if __name__ == '__main__':
     """main function used to get the input and perform the operations"""
     nodes = int(input())
-    ontology = convert_string_to_tree(input().strip())
+    convert_string_to_tree(input().strip())
     #print_tree(ontology)
     questions = {}
     for i in range(int(input())):
         add_questions(questions, input().strip())
     #print(questions)
     for i in range(int(input())):
-        print(query(ontology, input().strip()))
+        print(query(input().strip()))
